@@ -1,0 +1,19 @@
+server:
+  replicas: ${server_replica_count}
+  extraArgs:
+    - --insecure
+
+  service:
+    type: NodePort
+
+repoServer:
+  replicas: ${repo_server_replica_count}
+
+controller:
+  replicas: ${controller_replica_count}
+
+applicationSet:
+  replicas: ${application_set_replica_count}
+
+redis-ha:
+  enabled: ${enable_redis_hpa}
