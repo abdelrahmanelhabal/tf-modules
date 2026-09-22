@@ -99,12 +99,12 @@ resource "aws_route" "private_nat" {
 
 resource "aws_route_table_association" "public" {
   count = length(aws_subnet.main_public_subnet)
-  subnet_id = aws_subnet.main_public_subnet[count.index]
+  subnet_id = aws_subnet.main_public_subnet[count.index].id 
   route_table_id = aws_route_table.public_rt.id 
 }
 
 resource "aws_route_table_association" "private" {
   count = length(aws_subnet.main_private_subnet)
-  subnet_id = aws_subnet.main_private_subnet[count.index]
+  subnet_id = aws_subnet.main_private_subnet[count.index].id 
   route_table_id = aws_route_table.private_rt.id 
 }
