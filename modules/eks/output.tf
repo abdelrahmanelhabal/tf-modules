@@ -22,3 +22,8 @@ output "oidc_provider_arn" {
 	description = "ARN of the IAM OIDC provider associated with the EKS cluster."
 	value       = aws_iam_openid_connect_provider.oidc.arn
 }
+
+output "oidc_provider_url" {
+  description = "URL of the OIDC provider associated with the EKS cluster."
+  value       = aws_iam_openid_connect_provider.oidc.url
+}
