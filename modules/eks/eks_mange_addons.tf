@@ -50,6 +50,9 @@ resource "aws_eks_addon" "vpc_cni" {
   service_account_role_arn = aws_iam_role.vpc_cni_role.arn 
   resolve_conflicts_on_create = var.eks_addon_creation_conflict_behavior
   resolve_conflicts_on_update = var.eks_addon_update_conflict_behavior
+
+
+  depends_on = [ aws_eks_cluster.eks_cluster ]
 }
 
 data "aws_eks_addon_version" "kube_proxy" {
@@ -62,7 +65,10 @@ resource "aws_eks_addon" "kube_proxy" {
   cluster_name = var.cluster_name
   addon_version = data.aws_eks_addon_version.kube_proxy.version
   resolve_conflicts_on_create = var.eks_addon_creation_conflict_behavior
-  resolve_conflicts_on_update = var.eks_addon_update_conflict_behavior  
+  resolve_conflicts_on_update = var.eks_addon_update_conflict_behavior 
+
+  
+  depends_on = [ aws_eks_cluster.eks_cluster ] 
 }
 
 data "aws_eks_addon_version" "core_dns" {
@@ -76,4 +82,6 @@ resource "aws_eks_addon" "core_dns" {
   addon_version = data.aws_eks_addon_version.core_dns.version
   resolve_conflicts_on_create = var.eks_addon_creation_conflict_behavior
   resolve_conflicts_on_update = var.eks_addon_update_conflict_behavior  
+
+  depends_on = [ aws_eks_cluster.eks_cluster ]
 }
