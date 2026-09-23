@@ -9,9 +9,6 @@ locals {
   )
 }
 
-data "aws_iam_openid_connect_provider" "eks" {
-  url = aws_eks_cluster.eks.identity[0].oidc[0].issuer
-}
 
 resource "aws_iam_role" "ebs_csi" {
   name = "${var.cluster_name}-ebs-csi"

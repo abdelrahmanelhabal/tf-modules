@@ -7,8 +7,3 @@ resource "aws_eks_addon" "ebs_csi" {
   resolve_conflicts_on_create = var.resolve_conflicts_on_create
   resolve_conflicts_on_update = var.resolve_conflicts_on_update
 }
-
-data "aws_eks_addon_version" "ebs_csi" {
-  addon_name         = "aws-ebs-csi-driver"
-  kubernetes_version = var.cluster_version
-}
