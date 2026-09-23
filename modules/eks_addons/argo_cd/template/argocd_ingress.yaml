@@ -8,7 +8,7 @@ metadata:
     alb.ingress.kubernetes.io/healthcheck: HTTP 
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80} , {"HTTPS",443}]'
     alb.ingress.kubernetes.io/scheme:  ${lb_scheme}
-    alb.ingress.kubernetes.io/security-group: ${lb_security_group} , ${lb_security_group2}
+    alb.ingress.kubernetes.io/security-group: ${lb_security_group1} , ${lb_security_group2}
     alb.ingress.kubernetes.io/subnets: ${lb_subnet1} , ${lb_subnet2}
     alb.ingress.kubernetes.io/group.name: ${ingress_group_name}
 
