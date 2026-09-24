@@ -83,11 +83,7 @@ resource "aws_eks_addon" "core_dns" {
   resolve_conflicts_on_create = var.eks_addon_creation_conflict_behavior
   resolve_conflicts_on_update = var.eks_addon_update_conflict_behavior  
 
-  timeouts {
-    create = "5m"
-    update = "5m"
-    delete = "10m"
-  }
+  
 
   depends_on = [ aws_eks_cluster.eks_cluster ]
 }
