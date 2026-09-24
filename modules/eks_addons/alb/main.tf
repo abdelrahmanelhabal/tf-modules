@@ -9,7 +9,7 @@ resource "null_resource" "alb_config" {
 
   provisioner "local-exec" {
     command = <<EOF
-kubectl apply -k "https://github.com/aws/eks-charts/tree/master/stable/aws-load-balancer-controller//crds?ref=master"
+kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=master"
 echo '${local.alb_service_account_manifest}' | kubectl apply -f -
 EOF
   }
@@ -17,7 +17,7 @@ EOF
   provisioner "local-exec" {
     when    = destroy
     command = <<EOF
-kubectl delete -k "https://github.com/aws/eks-charts/tree/master/stable/aws-load-balancer-controller//crds?ref=master"
+kubectl delete -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=master"
 kubectl delete serviceaccount -n kube-system aws-load-balancer-controller
 EOF
   }
