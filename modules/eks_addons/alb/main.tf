@@ -17,8 +17,8 @@ EOF
   provisioner "local-exec" {
     when    = destroy
     command = <<EOF
-kubectl delete -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=master"
-kubectl delete serviceaccount -n kube-system aws-load-balancer-controller
+kubectl delete -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=master" --ignore-not-found
+kubectl delete serviceaccount -n kube-system aws-load-balancer-controller --ignore-not-found
 EOF
   }
 }
