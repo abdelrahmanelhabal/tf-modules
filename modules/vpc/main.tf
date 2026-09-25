@@ -51,7 +51,7 @@ resource "aws_subnet" "main_private_subnet" {
             Name = "${var.name}-private-subnet-${count.index}"
         },
         var.cluster_name != null &&   var.cluster_name !="" ? {
-         "kubernetes.io/role/elb"                    = "1"
+         "kubernetes.io/role/internal-elb"           = "1"
          "kubernetes.io/cluster/${var.cluster_name}" = "owned" 
         } : {} 
     )
