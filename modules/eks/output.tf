@@ -8,6 +8,11 @@ output "cluster_endpoint" {
 	value       = aws_eks_cluster.eks_cluster.endpoint
 }
 
+output "cluster_arn" {
+	description = "API server endpoint for the EKS cluster."
+	value       = aws_eks_cluster.eks_cluster.arn
+}
+
 output "cluster_certificate_authority_data" {
 	description = "Base64-encoded certificate authority data for the EKS cluster."
 	value       = aws_eks_cluster.eks_cluster.certificate_authority[0].data
