@@ -1,54 +1,39 @@
-locals {
-  oidc_provider_url = replace(var.oidc_provider_url, "https://", "")
-  alb_cluster_tag   = "elbv2.k8s.aws/cluster"
-}
-
-data "aws_partition" "current" {}
-
-data "aws_region" "current" {}
-
-data "aws_caller_identity" "current" {}
-
-data "aws_iam_policy_document" "load_balancer_controller_role_policy" {
-  statement {
-    actions = ["sts:AssumeRoleWithWebIdentity"]
-    effect  = "Allow"
-
-    condition {
-      test     = "StringLike"
-      variable = "${local.oidc_provider_url}:aud"
-      values   = ["sts.amazonaws.com"]
-    }
-
-    condition {
-      test     = "StringLike"
-      variable = "${local.oidc_provider_url}:sub"
-      values   = ["system:serviceaccount:kube-system:aws-load-balancer-controller"]
-    }
-
-    principals {
-      identifiers = [var.oidc_provider_arn]
-      type        = "Federated"
-    }
-  }
-}
-
 resource "aws_iam_role" "load_balancer_controller_role" {
-  name = var.eks_alb_role_name
+  name = "${var.eks_alb_role_name}"
 
-  assume_role_policy = data.aws_iam_policy_document.load_balancer_controller_role_policy.json
+  assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "${var.oidc_provider_arn}"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "${var.oidc_provider_url}:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller",
+          "${var.oidc_provider_url}:aud": "sts.amazonaws.com"  
+        }
+      }
+    }
+  ]
+}
+
+POLICY
 
   tags = {
-    "alpha.eksctl.io/cluster-name"                = var.cluster_name
+    "alpha.eksctl.io/cluster-name"                = "${var.cluster_name}"
     "alpha.eksctl.io/eksctl-version"              = "0.61.0"
     "alpha.eksctl.io/iamserviceaccount-name"      = "kube-system/aws-load-balancer-controller"
-    "eksctl.cluster.k8s.io/v1alpha1/cluster-name" = var.cluster_name
+    "eksctl.cluster.k8s.io/v1alpha1/cluster-name" = "${var.cluster_name}"
   }
+
 }
 
 resource "aws_iam_policy" "load_balancer_controller_policy" {
-  name = "AWSLoadBalancerControllerIAMPolicy-${var.eks_alb_role_name}"
-
+  name   = "AWSLoadBalancerControllerIAMPolicy-${var.eks_alb_role_name}"
   policy = <<POLICY
 {
     "Version": "2012-10-17",
@@ -263,7 +248,7 @@ resource "aws_iam_policy" "load_balancer_controller_policy" {
 POLICY
 }
 
-resource "aws_iam_role_policy_attachment" "load_balancer_controller_policy_attachment" {
+resource "aws_iam_role_policy_attachment" "load_balancer_contorller_policy_attachment" {
   policy_arn = aws_iam_policy.load_balancer_controller_policy.arn
   role       = aws_iam_role.load_balancer_controller_role.name
 }

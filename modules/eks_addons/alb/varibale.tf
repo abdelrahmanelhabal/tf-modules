@@ -27,3 +27,8 @@ variable "vpc_id" {
   type        = string
   description = "ID of the VPC where the AWS Load Balancer Controller will create and manage load balancers."
 }
+
+variable "node_group_name" {
+  type = string
+  description = "Name of the EKS managed node group."
+}
