@@ -7,6 +7,7 @@ resource "helm_release" "argo_cd" {
   create_namespace = true
   timeout          = 1500
   values           = [data.template_file.values.rendered]
+  depends_on       = [var.node_group_name]
 }
 
 data "template_file" "ingress" {
