@@ -57,3 +57,8 @@ variable "node_group_role" {
   type        = string
   description = "Kubernetes label value assigned to the node group role label"
 }
+
+variable "eks_cluster_arn" {
+  type = string 
+  description = "value"
+}

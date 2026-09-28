@@ -25,5 +25,6 @@ resource "aws_eks_node_group" "node_group" {
     aws_iam_role_policy_attachment.eks_worker_node_policy,
     aws_iam_role_policy_attachment.eks_container_registry_read_only,
     aws_iam_role_policy_attachment.secret_manager_policy_for_eks_nodes,
+    var.eks_cluster_arn 
   ]
 }
